@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { navItems } from '../constants/products';
 import { useCart } from '../features/cart/CartContext';
@@ -9,9 +10,10 @@ type Props = {
 
 export function Header({ onLoginClick, userName }: Props) {
   const { itemCount } = useCart();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="topbar">
+    <header className={`topbar ${isMenuOpen ? 'menu-open' : ''}`}>
       <Link to="/" className="brand" aria-label="Home page">
         <div className="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
@@ -35,21 +37,35 @@ export function Header({ onLoginClick, userName }: Props) {
         </div>
       </Link>
 
-      <nav className="nav" aria-label="Main navigation">
-        {navItems.map((item) => (
-          <Link to={item.to} key={item.label}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <button
+        type="button"
+        className="menu-toggle"
+        aria-label="Toggle navigation"
+        aria-expanded={isMenuOpen}
+        onClick={() => setIsMenuOpen((current) => !current)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
 
-      <div className="nav-actions">
-        <button type="button" className="ghost-btn" onClick={onLoginClick}>
-          {userName ? `Hi, ${userName}` : 'Login'}
-        </button>
-        <Link to="/cart" className="primary-btn cart-link">
-          Cart ({itemCount})
-        </Link>
+      <div className="mobile-menu">
+        <nav className="nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <Link to={item.to} key={item.label} onClick={() => setIsMenuOpen(false)}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <button type="button" className="ghost-btn" onClick={onLoginClick}>
+            {userName ? `Hi, ${userName}` : 'Login'}
+          </button>
+          <Link to="/cart" className="primary-btn cart-link" onClick={() => setIsMenuOpen(false)}>
+            Cart ({itemCount})
+          </Link>
+        </div>
       </div>
     </header>
   );
