@@ -56,13 +56,18 @@ All storefront products live in a single central file so they are easy to replac
 
 ## Render deployment guide
 
-### 1. Backend deployment on Render
+### 1. Backend deployment on Render (Docker-based)
+Because Render does not offer a native Java runtime option in the service creation UI, deploy the backend as a Docker service.
+
 Create a new Web Service and connect your GitHub repository.
 
 Use these settings:
 - Root directory: `backend`
-- Build command: `mvn clean package -DskipTests`
-- Start command: `java -jar target/ediblecart-backend-0.0.1-SNAPSHOT.jar --server.port=$PORT`
+- Runtime: `Docker`
+- Build command: leave empty
+- Start command: leave empty
+
+The backend includes a Dockerfile at `backend/Dockerfile` that builds the app automatically.
 
 Set these environment variables in Render:
 ```bash
@@ -76,7 +81,7 @@ PORT=8080
 ```
 
 Notes:
-- Render automatically injects `$PORT`, so the app is accessible externally.
+- Render automatically injects `$PORT`, and the app listens on that value.
 - The backend is already configured to read these values from environment variables.
 - For the free tier, use a free Render PostgreSQL database.
 
