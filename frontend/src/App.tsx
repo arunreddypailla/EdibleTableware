@@ -34,7 +34,14 @@ function AppContent() {
 
   return (
     <div className="app-shell">
-      <Header onLoginClick={() => setShowAuthModal(true)} userName={user?.name} />
+      <Header
+        onLoginClick={() => setShowAuthModal(true)}
+        onLogout={() => {
+          clearSession();
+          setUser(null);
+        }}
+        userName={user?.name}
+      />
 
       <Routes>
         <Route path="/" element={<HomePage />} />

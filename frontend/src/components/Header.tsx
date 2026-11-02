@@ -5,10 +5,11 @@ import { useCart } from '../features/cart/CartContext';
 
 type Props = {
   onLoginClick: () => void;
+  onLogout: () => void;
   userName?: string;
 };
 
-export function Header({ onLoginClick, userName }: Props) {
+export function Header({ onLoginClick, onLogout, userName }: Props) {
   const { itemCount } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -59,9 +60,18 @@ export function Header({ onLoginClick, userName }: Props) {
         </nav>
 
         <div className="nav-actions">
-          <button type="button" className="ghost-btn" onClick={onLoginClick}>
-            {userName ? `Hi, ${userName}` : 'Login'}
-          </button>
+          {userName ? (
+            <>
+              <button type="button" className="ghost-btn" onClick={onLogout}>
+                Logout
+              </button>
+              <span className="user-badge">Hi, {userName}</span>
+            </>
+          ) : (
+            <button type="button" className="ghost-btn" onClick={onLoginClick}>
+              Login
+            </button>
+          )}
           <Link to="/cart" className="primary-btn cart-link" onClick={() => setIsMenuOpen(false)}>
             Cart ({itemCount})
           </Link>

@@ -174,6 +174,19 @@ body::before {
   gap: 12px;
 }
 
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.7rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(67, 108, 85, 0.08);
+  color: #274c3f;
+  font-weight: 700;
+  border: 1px solid rgba(74, 111, 86, 0.12);
+}
+
 .menu-toggle {
   display: none;
   border: 1px solid rgba(47, 77, 60, 0.1);
